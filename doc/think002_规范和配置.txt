@@ -1,0 +1,60 @@
+
+一、tp开发规范
+
+1、目录使用小写+下划线 示例：public,view,app 
+2、类文件采用驼峰法命名（首字母大写），并且文件名和类名保持一致 示例：User、UserType
+3、除了类之外其它文件采用小写+下划线命名 
+4、函数的命名使用小写字母和下划线 例如：get_client_ip
+5、方法的命名使用驼峰法 例如 getUserName
+6、属性的命名使用驼峰法 例如 tableName
+7、常量以大写字母下划线命名 例如 APP_PATH
+8、配置参数以小写字母和下划线命名 例如 url_route_on 和url_convert
+
+二、配置
+
+1、获取环境变量
+
+a、使用Env类
+use think\facade\Env;
+
+Env::get('database.username'); 			#无默认值的
+Env::get('database.username', 'root'); 	#如果不存在则使用默认值
+
+b、使用助手函数
+env('database.username');			#无默认值的
+env('database.username','yangphp'); #如果不存在则使用默认值
+
+2、获取配置
+
+a、使用 Config 类
+use think\facade\Config;
+
+Config::get('app');
+Config::get('app.default_timezone');
+
+b、使用 助手函数
+ config('app.default_timezone');
+
+
+三、开启多应用模式 
+composer require topthink/think-multi-app
+
+
+四、应用目录获取
+
+root_path(); 		#根目录
+base_path();		#根目录下的app目录
+app_path(); 		#应用目录
+config_path();		#config_path()
+runtime_path();		#运行时目录
+
+五、url重写
+
+a、nginx url重写
+
+location / { 
+   if (!-e $request_filename) {
+   		rewrite  ^(.*)$  /index.php?s=/$1  last;
+    }
+}
+

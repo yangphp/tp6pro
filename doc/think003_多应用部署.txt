@@ -1,0 +1,10 @@
+
+1、安装多应用模式扩展think-multi-app
+
+composer require topthink/think-multi-app
+
+2、在app目录新建 admin 和 index目录
+
+3、将原本的app目录下面的文件复制到 index目录和admin目录
+	
+4、
