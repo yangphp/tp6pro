@@ -1,10 +1,36 @@
 
+
 1、安装多应用模式扩展think-multi-app
 
 composer require topthink/think-multi-app
 
 2、在app目录新建 admin 和 index目录
 
-3、将原本的app目录下面的文件复制到 index目录和admin目录
+3、将原本的app目录下面的文件复制到 index目录和admin目录。如下图
 	
-4、
+
+4、修改index目录和admin目录下文件里面的 命名空间
+
+index目录下面的命名空间 app后面都增加一个 \index
+admin目录下面的命名空间 app后面都增加一个 \admin
+
+5、访问index项目 
+http://localhost/index.php/index/index/
+
+6、访问admin应用
+http://localhost/index.php/admin/index
+
+7、隐藏 index.php
+
+a、nginx url重写
+location / { 
+   if (!-e $request_filename) {
+   		rewrite  ^(.*)$  /index.php?s=/$1  last;
+    }
+}
+
+隐藏后：访问index项目
+http://localhost/index/index/
+
+隐藏后：访问admin项目
+http://localhost/admin/index/
