@@ -1,0 +1,34 @@
+
+1、在本地项目目录下 执行 
+git init
+
+2、将本地文件添加到缓存 ,由于文件比较多直接使用 . 表示当前目录下的所有文件
+git add . 
+
+3、提交本地的代码到版本库
+git commit -m 'create thinkphp6.0.9 pro'
+ 
+4、登录 GitHub ，创建一个 tp6pro 的项目
+
+5、本地git代码和远程的建立联系
+git remote add origin git@github.com:yangphp/tp6pro.git
+
+6、首先运行拉取命令
+git pull --rebase origin master
+
+7、将本地代码master分支 推送到远程分支
+git push -u origin master
+
+8、打一个初始的标记，随时可以恢复过来
+git tag -a v1.0 -m "version 1.0 released"  
+
+推送标签到远程
+git push origin v1.0
+
+9、创建一个开发分支 yangdev
+
+创建并切换分支
+git checkout -b yangdev  
+
+推送分支yangdev到远程分支
+git push origin yangdev
