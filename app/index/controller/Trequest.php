@@ -30,10 +30,16 @@ class Trequest extends BaseController
         echo Request::url(true);
         echo "<br />";
 
-        //获取当前控制器--获取不到什么鬼
+        //获取当前控制器
+        echo "当前的控制器首字母大写为：<br />";
+        echo Request::controller();
+        echo "<br />";
+        echo "当前的控制器首字母为：<br />";
         echo Request::controller(true);
+        echo "<br />";
 
-        //获取当前操作--获取不到什么鬼
+        //获取当前操作
+        echo "当前的操作为：<br />";
         echo request()->action();
     }
 
