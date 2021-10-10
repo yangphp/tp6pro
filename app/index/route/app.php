@@ -11,38 +11,34 @@
 use think\facade\Route;
 
 
-/*
-
-Route::get('hello/:name', 'index/hello');
-*/
-
-// 注册路由到Url控制器的t001操作
-Route::rule('url001','Url/t001');
-
-// 必选变量示例
-Route::rule('url002/:name','Url/t002');
-
-// 可选变量示例
-Route::rule('url003/[:name]','Url/t003');
-
-// 额外参数示例
-Route::get('url004/:id','Url/t004')
-    ->append(['status' => 1, 'app_id' =>5]);
-
-//路由标识
-Route::rule('url005/:name','Url/t005')
-    ->name('url5');
-
-//路由到模板 传参数会有bug
-Route::view('url006','url/t006');
-
-#必须安装视图引擎
-#composer require topthink/think-view
-
-//重定向路由 多应用情况下无效
-Route::redirect('blog/:id', 'http://blog.thinkphp.cn/read/:id', 302);
-
-//路由到闭包
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
+//最简单的路由 闭包路由
+Route::get('hello$', function() {
+    return 'Hello,ThinkPHP';
 });
+
+//闭包定义参数
+Route::get('hello/:name$', function($name) {
+    return 'Hello,' . $name;
+});
+
+
+//路由到控制器方法
+Route::get('tr001/:name', 'Troute/t001');
+
+//可选参数
+Route::get('tr002/[:name]', 'Troute/t002');
+
+//重定向路由
+Route::redirect('tr003', 'https://www.kancloud.cn/thinkphp/thinkphp6-quickstart/1352495', 301);
+
+//路由到模板,以及路由传参
+Route::view('tr004', 'index/tr004',['name'=>'yangphp','age'=>30]);
+
+//路由分组
+Route::group('troute', function() {
+    Route::get('/tr005', 'Troute/t005');
+    Route::get('/tr006', 'Troute/t006');
+})->ext('html')->pattern(['id' => '\d+']);
+
+//生成路由
+Route::get('tr007', 'Troute/t007');

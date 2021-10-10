@@ -1,0 +1,58 @@
+
+1、如果要改变控制器的目录名称
+
+需要在config/route.php配置文件中设置：
+'controller_layer'    =>    'controller',
+
+2、如果控制器是驼峰式命名访问地址
+
+例如 app\controller\HelloWorld.php
+
+访问地址1：
+http://localhost/HelloWorld/hello
+访问地址2 也可以访问：
+http://localhost/hello_world/hello
+
+3、可以为控制器增加后缀
+
+// 在config/route.php 中设置
+'controller_suffix'     => true,
+
+则控制器文件 需要以 Controller结尾 
+
+例如 app\controller\HelloWorldController.php
+
+
+4、渲染输出 
+
+默认情况下控制器的输出全部采用return的方式
+
+// 输出字符串
+return 'hello,world!';
+
+//输出json
+return json($data)
+
+//渲染模板输出
+return view();
+
+
+5、halt 调试
+
+不要再控制器使用 exit die 中断代码，可以使用 halt 调试函数
+
+halt(' 这是从halt助手函数中输出的内容');
+
+注意：halt也中断了程序进行调试输出
+
+6、空控制器
+
+当系统找不到指定的控制器名称，系统会尝试定位当前应用下的空控制器(Error)类
+利用这个机制我们可以用来定制错误页面和进行URL的优化
+
+7、资源控制器 可以轻松创建控制器
+php think make:controller index@Blog
+
+
+
+

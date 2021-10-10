@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-namespace app\admin;
+namespace app;
 
 use think\App;
 use think\exception\ValidateException;

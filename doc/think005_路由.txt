@@ -1,78 +1,125 @@
 
-
-1、路由文件
-
-由于生成的是多应用，所以将 route 复制到 app/index 文件夹下面。
-路由的操作均在 app/index/route/app.php 中操作
-
-
-2、路由需要引用 Route 类
-
-use think\facade\Route;
-
-3、路由表达式 
-
-Route::rule('路由表达式', '路由地址', '请求类型');
-
-请求类型： GET POST PUT DELETE PATCH * 默认为任何请求类型有效
-
-示例：
-Route::rule('new/:id','News/read');
-
-
-4、注册一个简单的路由实例
-
-// 注册路由到Url控制器的t001操作
-Route::rule('url001','Url/t001');
-
-url访问地址：
-http://www.tp6.cn/index/url001
-
-访问的控制器：
-app/index/controller/Url控制器的t001操作
-
-5、可选变量
-
-Route::get('blog/:year/[:month]','Blog/archive');
-其中 :year 是必填的变量  [:month] 是可选的变量
-
-6、额外参数
-
-Route::get('url004/:id','Url/t004')
-    ->append(['status' => 1, 'app_id' =>5]);
-
-7、路由标识
-Route::rule('url005/:name','url/t005')
-    ->name('url5');
-
-可在控制器中，使用 url('url5',['name'=>$name])获取对应的url
-
-8、强制路由
-在 config/route.php 中定义 
-
-'url_route_must'		=>  true,
-则对所有访问，强制使用路由。
-
-9、路由到模板 有bug，最好不用 
-
-Route::view('url006','url/t006');
-
-#必须安装视图引擎
-#composer require topthink/think-view
-
-
-10、重定向路由 有bug，最好不用 
-Route::redirect('blog/:id', 'http://blog.thinkphp.cn/read/:id', 302);
-
-11、路由到闭包
-
-Route::get('hello', function () {
-    return 'hello,world!';
+1、闭包定义参数
+Route::get('hello/:name', function($name) {
+    return 'Hello,' . $name;
 });
 
 
+2、最简单的路由 闭包路由
+Route::get('hello', function() {
+    return 'Hello,ThinkPHP';
+});
+
+3、路由到控制器方法 并传参 name 
+Route::get('tr001/:name', 'Troute/t001');
 
 
+4、路由的优先级，把复杂的路由放到前面，不然永远是匹配简单的路由
+
+路由并非完整匹配，所以如果你定义了下面的路由
+
+Route::get('hello', 'Hello/index');
+Route::get('hello/:name', 'Index/hello');
+
+如果访问的URL是
+http://tp.com/hello/think
+永远只会匹配到第一条路由。办法是把路由规则复杂的放到前面
+
+Route::get('hello/:name', 'Index/hello');
+Route::get('hello', 'Hello/index');
+
+也可以定义一个完整匹配
+
+Route::get('hello$', 'Hello/index');
+Route::get('hello/:name$', 'Index/hello');
+
+5、路由路由注册也可以带上匹配条件检查
+Route::get('hello/:name', 'Index/hello')
+    ->ext('html')
+    ->https();
+
+表示只有当访问才会匹配该路由
+https://tp.com/hello/think.html
 
 
+6、可选参数
+Route::get('tr002/[:name]', 'Troute/t002');
 
+public function t002($name='')
+{
+	return 'hello this is Troute class t002 action ,name = '.$name;
+}
+
+7、路由的请求类型限制
+
+Route::get('blog/:id','Blog/read');
+Route::post('blog', 'Blog/save');
+Route::put('blog/:id', 'Blog/update');
+Route::delete('blog/:id', 'Blog/delete');
+Route::patch('blog/:id','Blog/patch');
+Route::options('blog','Blog/info');
+
+你可以注册一个可以接受任何请求类型的路由
+Route::any('hello','Index/hello');
+
+或者注册一个多个请求类型的路由
+Route::rule('hello','Index/hello', 'get|post');
+
+8、重定向路由
+
+Route::redirect('tr003', 'https://www.kancloud.cn/thinkphp/thinkphp6-quickstart/1352495', 301);
+
+9、路由到模板
+
+Route::view('tr004', 'index/tr004');
+
+10、如果不需要路由
+可以在该应用下的app.php配置文件中设置
+
+'with_route'	=>	false,
+
+11、强制路由
+
+// 强制使用路由
+'url_route_must'        => true,
+
+12、路由分组
+
+对路由进行分组可以有效提高路由的匹配性能
+
+Route::group('troute', function() {
+    Route::get('/tr005', 'Troute/t005');
+    Route::get('/tr006', 'Troute/t006');
+})->ext('html')->pattern(['id' => '\d+']);
+
+访问地址如下：
+http://tp6.cn/index/troute/tr005.html
+http://tp6.cn/index/troute/tr006.html
+
+
+虚拟分组
+
+Route::group(function() {
+    Route::get('blog/:id', 'Blog/read');
+    Route::get('user/:name', 'User/read');
+})->ext('html')->pattern(['id' => '\d+']);
+
+13、url生成 
+
+使用Route类
+Route::buildUrl('index/hello', ['name' => 'thinkphp']);
+
+
+助手函数
+url('index/hello', ['name' => 'thinkphp']);
+
+生成url不含域名
+url('index/hello', ['name' => 'thinkphp' , 'extra' => 'test']);
+
+结果为：/index/index/hello.html?name=thinkphp&extra=test
+
+
+生成url含域名
+url('index/hello', ['name' => 'thinkphp' , 'extra' => 'test'])->domain(true);
+
+结果为：http://tp6.cn/index/index/hello.html?name=thinkphp&extra=test
