@@ -18,20 +18,42 @@ class AdminModel extends Model
     //插入数据
     public function addItem($data)
     {
-        $data['admin_pwd'] 	= password_hash("a123456",PASSWORD_DEFAULT);
+        $data['admin_pwd'] 	= password_hash($data['pass'],PASSWORD_DEFAULT);
         $data['add_datetime'] = date("Y-m-d H:i:s");
 
-    	try {
-				$admin = $this::create($data);
+        //判断账号是否重复
+        $item = $this->where("admin_name",$data['admin_name'])->find();
+        if (!empty($item)) 
+        {
+            return array('status'=>'FAIL','msg'=>'该管理员账号已存在，请重新输入');
+        }
 
-    	} catch (\Exception $e) {
+        $admin_id = $this->strict(false)->insertGetId($data);
 
-    			return array('status'=>'FAIL','msg'=>'添加管理员失败'.$e->getMessage());
-    	}
+    	return array('status'=>'SUCCESS','msg'=>'添加管理员成功','data'=>array('admin_id'=>$admin_id));
+    }
+    //修改数据
+     public function updateItem($data)
+    {   
+        if (!empty($data['pass'])) 
+        {
+            $data['admin_pwd']  = password_hash($data['pass'],PASSWORD_DEFAULT);
+        }
+        $data['admin_id'] = $data['s_admin_id'];
+        //判断账号是否重复
+        $item = $this
+            ->where("admin_name",$data['admin_name'])
+            ->where("admin_id","<>",$data['admin_id'])
+            ->find();
 
+        if (!empty($item)) 
+        {
+            return array('status'=>'FAIL','msg'=>'该管理员账号已存在，请重新输入');
+        }
 
-    	return array('status'=>'SUCCESS','msg'=>'添加管理员成功','data'=>array('admin_id'=>$admin->admin_id));
+        $admin_id = $this->strict(false)->update($data);
 
+        return array('status'=>'SUCCESS','msg'=>'修改管理员成功');
     }
 
     /**
@@ -69,6 +91,7 @@ class AdminModel extends Model
 
     	$fail_num = Db::table('yphp_admin_login')
     	->where("admin_id",$admin['admin_id'])
+        ->where("login_status",2)
     	->whereLike("add_datetime",$today."%")->count();
 
     	if ($fail_num >= 10) {
@@ -110,6 +133,35 @@ class AdminModel extends Model
     	}
     }
 
+    /**
+     * 修改密码
+     */
+    public function changePassAct($admin_id,$pass)
+    {
+        if (strlen($pass)<6 || strlen($pass) > 16) 
+        {
+            return array('status'=>'FAIL','msg'=>'修改失败：密码长度需控制在6-16个字符');
+        }
+        
+        $admin_info = $this->where("admin_id",$admin_id)->find();
+        if (password_verify($pass,$admin_info['admin_pwd'])) 
+        {
+            return array('status'=>'FAIL','msg'=>'修改失败：新密码必须和原密码不同');
+        }
+
+        $pass  = password_hash($pass,PASSWORD_DEFAULT);
+        $update_arr = array('admin_pwd'=>$pass);
+        $res = $this->where("admin_id",$admin_id)->update($update_arr);
+
+        if ($res > 0) {
+            return array('status'=>'SUCCESS','msg'=>'修改密码成功');
+        }else{
+            return array('status'=>'FAIL','msg'=>'修改密码失败');
+        }
+
+    }
+
+   
     /**
      * 写入登录日志
      * @param [type] $admin_id     [description]

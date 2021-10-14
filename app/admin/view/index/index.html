@@ -26,7 +26,7 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">X-admin v2.2</a></div>
+                <a href="/admin/index/index">yangphp-admin v1.0</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -59,9 +59,9 @@
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
                         <dd>
-                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                            <a onclick="xadmin.open('个人信息','/admin/index/profile',600,500)">个人信息</a></dd>
                          <dd>
-                            <a onclick="xadmin.open('修改密码','http://www.baidu.com')">修改密码</a></dd>
+                            <a onclick="xadmin.open('修改密码','/admin/index/changePass',600,500)">修改密码</a></dd>
                         
                         <dd>
                             <a href="/admin/index/loginout">安全退出</a></dd>
@@ -174,22 +174,17 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
+                                <a onclick="xadmin.add_tab('管理员列表','/admin/admin/adminList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>管理员列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
+                                <a onclick="xadmin.add_tab('角色管理','/admin/admin/roleList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>角色管理</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限分类</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
+                                <a onclick="xadmin.add_tab('权限管理','/admin/admin/powerList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>权限管理</cite></a>
                             </li>
