@@ -112,15 +112,6 @@
                         <div class="layui-card-body ">
                             <div class="page">
                               {$page|raw}
-
-                                <!--<div>
-                                  <a class="prev" href="">&lt;&lt;</a>
-                                  <a class="num" href="">1</a>
-                                  <span class="current">2</span>
-                                  <a class="num" href="">3</a>
-                                  <a class="num" href="">489</a>
-                                  <a class="next" href="">&gt;&gt;</a>
-                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -141,7 +132,7 @@
       function item_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               
-                  var sub_url = "/admin/admin/adminDel";
+                var sub_url = "/admin/admin/adminDel";
                 $.post(sub_url,{s_admin_id:id},function(redata){
                     if(redata.status == 'SUCCESS')
                     {

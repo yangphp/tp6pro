@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>修改文章</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="/admin/css/font.css">
+        <link rel="stylesheet" href="/admin/css/xadmin.css">
+        <script type="text/javascript" src="/admin/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/admin/js/xadmin.js"></script>
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+        <!--[if lt IE 9]>
+            <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+            <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <form class="layui-form">
+                  <div class="layui-form-item">
+                      <label for="cate_name" class="layui-form-label">
+                          <span class="x-red">*</span>文章标题
+                      </label>
+                      <div class="layui-input-block">
+                          <input type="text" id="news_title" name="news_title" required="" lay-verify="required" 
+                          autocomplete="off" class="layui-input" value="{$info.news_title}" style="width:700px;">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label for="cate_name" class="layui-form-label">
+                          <span class="x-red">*</span>文章分类
+                      </label>
+                      <div class="layui-input-inline">
+                          <select name="cate_id" >
+                              <option value="">选择分类</option>
+                              {foreach $cate_list as $val}
+                              <option value="{$val.id}" {if $val.id==$info.cate_id}selected{/if} >{$val.cate_name}</option>
+                              {/foreach}
+                           </select>
+                      </div>
+                  </div>
+                  
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">
+                        文章封面
+                    </label>
+                    <button type="button" class="layui-btn" id="news_img_button" >上传图片</button>
+                    <input type="hidden" value="" id="news_pic" name="news_pic" value="{$info.news_pic}" required="" lay-verify="news_img" autocomplete="off" class="layui-input">
+                    <div class="layui-upload-list">
+                        <label class="layui-form-label">
+                        </label>
+                        <img class="layui-upload-img" id="newsimg" style="width: 200px;height: 140px;margin: 0 10px 10px 0;" src= "{$info.news_pic}" onerror="this.src='/admin/images/no_img.png'">
+                        <p id="newsimg_text"></p>
+                    </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                      <label for="admin_truename" class="layui-form-label">
+                          <span class="x-red">*</span>文章简介
+                      </label>
+                       <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" id="news_desc" name="news_desc" class="layui-textarea" style="width:700px;height:100px;">{:htmlspecialchars_decode($info.news_desc)}</textarea>
+                    </div>
+                  </div>
+
+                   <div class="layui-form-item">
+                      <label for="admin_truename" class="layui-form-label">
+                          <span class="x-red">*</span>文章内容
+                      </label>
+                       <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" id="news_content" name="news_content" class="layui-textarea" style="width:700px;height:400px;">{:htmlspecialchars_decode($info.news_content)}</textarea>
+                    </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                      <label for="admin_dept" class="layui-form-label">
+                         显示隐藏
+                      </label>
+                     <div class="layui-input-block">
+                        <input type="radio" name="is_show" value="1" lay-skin="primary" {if $info.is_show == 1}checked{/if} title="显示" >
+                        <input type="radio" name="is_show" value="2"  lay-skin="primary" {if $info.is_show == 2}checked{/if} title="隐藏">
+                      </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                      <label for="admin_dept" class="layui-form-label">
+                         是否推荐
+                      </label>
+                     <div class="layui-input-block">
+                        <input type="radio" name="is_recommed" value="1" lay-skin="primary" {if $info.is_recommed == 1}checked{/if} title="否" >
+                        <input type="radio" name="is_recommed" value="2"  lay-skin="primary" {if $info.is_recommed == 2}checked{/if} title="推荐">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label for="cate_name" class="layui-form-label">
+                          阅读数量
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="text" id="news_reads" name="news_reads" required="" lay-verify="required"   
+                          autocomplete="off" value="{$info.news_reads}" class="layui-input">
+                      </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                      <label for="L_repass" class="layui-form-label">
+                      </label>
+                      <button  class="layui-btn" lay-filter="add" lay-submit="">
+                          修改文章
+                      </button>
+                      <input type="hidden" name="id" value="{$info.id}">
+                  </div>
+              </form>
+            </div>
+        </div>
+        <script charset="utf-8" src="/admin//kindeditor/kindeditor-all-min.js"></script>
+        <script charset="utf-8" src="/admin/kindeditor/lang/zh-CN.js"></script>
+
+        <script>
+
+            var editor;
+            KindEditor.ready(function(K) {
+                editor =  K.create('#news_content', {
+                     uploadJson : '/admin/kindeditor/php/upload_json.php',
+                     fileManagerJson : '/admin/kindeditor/php/file_manager_json.php',
+                    allowFileManager : true
+                });
+            });
+
+
+            layui.use(['form', 'layer'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form,
+                layer = layui.layer;
+
+                //自定义验证规则
+                form.verify({
+                   
+                });
+
+                //监听提交
+                form.on('submit(add)',
+                function(data) {
+                    
+                    // 同步数据后可以直接取得textarea的value
+                    editor.sync();
+                    data.field.news_content = $('#news_content').val();
+
+                    var sub_url = "/admin/news/newsAddAct";
+                    $.post(sub_url,data.field,function(redata){
+                        if(redata.status == 'SUCCESS')
+                        {
+                           layer.alert("修改成功", {
+                                icon: 6
+                            },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+                                // 可以对父窗口进行刷新 
+                                xadmin.father_reload();
+                            });
+                        }
+                        else
+                        {
+                            layer.alert(redata.msg, {icon: 5});
+                        }
+                    },'json');
+
+                    return false;
+                });
+
+            });
+        </script>
+        <script>
+            layui.use('upload', function(){
+                var $ = layui.jquery
+                        ,upload = layui.upload;
+
+                //普通图片上传
+                var uploadInst = upload.render({
+                    elem: '#news_img_button'
+                    ,url: '/admin/news/uploadImg'
+                    ,before: function(obj){
+                        //预读本地文件示例，不支持ie8
+                        obj.preview(function(index, file, result)
+                        {
+                            $('#newsimg').attr('src', result); //图片链接（base64）
+                        });
+                    }
+                    ,done: function(res){
+
+                        //如果上传失败
+                        if(res.status == 'SUCCESS')
+                        {
+                            $("#news_pic").attr('value',res.filename)
+                        }
+                        if(res.status== 'FAIL')
+                        {   
+                            //$("#newsimg_text").html(res.msg);
+                            layer.msg(res.msg);
+                        }
+                        //上传成功
+                    }
+
+                });
+            });
+        </script>
+
+
+       
+    </body>
+
+</html>

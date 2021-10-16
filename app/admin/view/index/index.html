@@ -169,6 +169,29 @@
                     </li>
                     <li>
                         <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="文章管理">&#xe723;</i>
+                            <cite>文章管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('文章管理','/admin/news/newsList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>文章管理</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('文章分类管理','/admin/news/newsCateList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>文章分类管理</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('文章回收站','/admin/news/newsTrash')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>文章回收站</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
                             <cite>管理员管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
@@ -187,6 +210,24 @@
                                 <a onclick="xadmin.add_tab('权限管理','/admin/admin/powerList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>权限管理</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="日志管理">&#xe723;</i>
+                            <cite>日志管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('管理员登录日志','/admin/logs/adminLoginList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>管理员登录日志</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('管理员操作日志','/admin/logs/adminOpList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>管理员操作日志</cite></a>
                             </li>
                         </ul>
                     </li>

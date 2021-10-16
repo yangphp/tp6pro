@@ -44,7 +44,7 @@
                         </div>
 
                          <div class="layui-card-header">
-                            <button class="layui-btn" onclick="xadmin.open('添加角色','/admin/admin/roleAdd',700,500)"><i class="layui-icon"></i>添加角色</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加角色','/admin/admin/roleAdd',900,600)"><i class="layui-icon"></i>添加角色</button>
                         </div>
                         <div class="layui-card-body ">
                             <table class="layui-table layui-form">
@@ -67,7 +67,7 @@
                                 
                                   <td class="td-manage">
                                    
-                                    <a title="编辑"  onclick="xadmin.open('编辑','/admin/admin/roleAdd?role_id={$val.role_id}',700,500)" href="javascript:;">
+                                    <a title="编辑"  onclick="xadmin.open('编辑','/admin/admin/roleAdd?role_id={$val.role_id}',900,600)" href="javascript:;">
                                       <i class="layui-icon">&#xe642;</i>
                                     </a>
                                     <a title="删除" onclick="item_del(this,'{$val.role_id}')" href="javascript:;">
@@ -83,15 +83,6 @@
                         <div class="layui-card-body ">
                             <div class="page">
                               {$page|raw}
-
-                                <!--<div>
-                                  <a class="prev" href="">&lt;&lt;</a>
-                                  <a class="num" href="">1</a>
-                                  <span class="current">2</span>
-                                  <a class="num" href="">3</a>
-                                  <a class="num" href="">489</a>
-                                  <a class="next" href="">&gt;&gt;</a>
-                                </div>-->
                             </div>
                         </div>
                     </div>

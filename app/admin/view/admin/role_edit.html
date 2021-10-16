@@ -20,7 +20,7 @@
     <body>
         <div class="layui-fluid">
             <div class="layui-row">
-                <form class="layui-form">
+                <form class="layui-form layui-form-pane">
                   <div class="layui-form-item">
                       <label for="role_name" class="layui-form-label">
                           <span class="x-red">*</span>角色名
@@ -48,18 +48,43 @@
                       <label for="role_powers" class="layui-form-label">
                          权限类型
                       </label>
-                     <div class="layui-input-inline">
+                     <div class="layui-input-inline" style="width: 200px;">
                         <input type="radio" name="role_powers" value="all" lay-skin="primary" {if $info.role_powers == 'all'}checked{/if} title="全部权限" >
-                        <input type="radio" name="role_powers" value="custom"  lay-skin="primary" {if $info.role_powers == 'custom'}checked{/if} title="手动选择">
+                        <input type="radio" name="role_powers" value="custom"  lay-skin="primary" {if $info.role_powers != 'all'}checked{/if} title="手动选择">
                       </div>
-                      <div class="layui-form-mid layui-word-aux">
-                          <span class="x-red">*</span>当选择全部权限后，手动选择的权限则会失效
-                      </div>
+                      
                   </div>
+                  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        拥有权限
+                    </label>
+                    <table  class="layui-table layui-input-block">
+                        <tbody>
+                            {foreach $power_list as $key=>$val}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ids[]" value="{$val['id']}" lay-skin="primary" lay-filter="father" title="{$val['pname']}" {if in_array($val['id'],$info.role_powers_check)}checked{/if}>
+                                </td>
+                                <td>
+                                    <div class="layui-input-block">
+                                        {foreach $val['child'] as $val2}
+                                        <input name="ids[]" lay-skin="primary" type="checkbox" title="{$val2['pname']}" value="{$val2['id']}" {if in_array($val2['id'],$info.role_powers_check)}checked{/if}> 
+                                        
+                                            {foreach $val2['child'] as $val3}
+                                            <input name="ids[]" lay-skin="primary" type="checkbox" title="|- {$val3['pname']}" value="{$val3['id']}" {if in_array($val3['id'],$info.role_powers_check)}checked{/if}> 
+                                            {/foreach}
+                                            <br />
+                                        {/foreach}
+                                    </div>
+                                </td>
+                            </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
 
                   <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                      </label>
+                      
                       <button  class="layui-btn" lay-filter="add" lay-submit="">
                           修改
                       </button>
@@ -105,6 +130,17 @@
                     },'json');
 
                     return false;
+                });
+
+
+                form.on('checkbox(father)', function(data){
+                    if(data.elem.checked){
+                        $(data.elem).parent().siblings('td').find('input').prop("checked", true);
+                        form.render(); 
+                    }else{
+                       $(data.elem).parent().siblings('td').find('input').prop("checked", false);
+                        form.render();  
+                    }
                 });
 
             });</script>
