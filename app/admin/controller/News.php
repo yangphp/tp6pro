@@ -208,11 +208,9 @@ class News extends BaseController
 
             return json(array('status'=>'FAIL','msg'=>"上传失败".$e->getMessage()));
         }
-    
-
     }
 
-     /**
+    /**
      *  添加文件操作
      */
     public function newsAddAct()
@@ -243,8 +241,6 @@ class News extends BaseController
          Db::name('yphp_news')->strict(false)->update($data);
          return json(array('status'=>'SUCCESS','msg'=>'修改成功！'));
        }
-
-
     }
     /**
      * 文章分类列表
