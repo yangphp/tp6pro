@@ -68,6 +68,25 @@
                   </div>
 
                   <div class="layui-form-item">
+                      <label for="admin_mobile" class="layui-form-label">
+                          <span class="x-red">*</span>管理员角色
+                      </label>
+                      <div class="layui-input-inline">
+                          <select name="admin_role_id" >
+                              <option value="">请选择</option>
+                              <option value="0">超级管理员</option>
+                              {foreach $role_list as $val}
+                                <option value="{$val['role_id']}">{$val['role_name']}</option>
+                              {/foreach}
+                           </select>
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">
+                          根据角色可以控制管理员权限
+                      </div>
+                  </div>
+
+
+                  <div class="layui-form-item">
                       <label for="admin_truename" class="layui-form-label">
                           <span class="x-red">*</span>姓名
                       </label>

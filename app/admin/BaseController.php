@@ -45,6 +45,7 @@ abstract class BaseController
     //管理员信息
     protected $admin_info;
     protected $admin_id;
+    protected $access ;
 
     /**
      * 构造方法
@@ -80,6 +81,46 @@ abstract class BaseController
                 return $this->redirectTo('/admin/login/index');
             }
         }
+
+        //权限判断
+        $action = request()->action();
+
+        $powers_arr = array();
+        $this->access  = true;
+
+        if($this->admin_info['admin_role_id'] == 0)
+        {
+           $this->access  = true;
+        }
+        else
+        {
+            $role_powers = Db::name('yphp_admin_role')->where("role_id",$this->admin_info['admin_role_id'])->value('role_powers');
+            if($role_powers == 'all')
+            {
+                $this->access  = true;
+            }
+            else
+            {
+                $powers = 'custom';
+                $powers_arr = explode(",",$role_powers);
+
+                //获取当前菜单
+                $power_info = Db::name('yphp_admin_power')
+                            ->where("pcontroller",$controller)
+                            ->where("paction",$action)
+                            ->where("ptype",3)->where("pstatus",1)->find();
+
+                if (!empty($power_info) && !in_array($power_info['id'],$powers_arr)) 
+                {
+                   //无权限访问
+                   $this->access  = false;
+                }
+            }
+        }
+
+       
+
+
 
         //常用model
         $this->adminModel = new AdminModel();

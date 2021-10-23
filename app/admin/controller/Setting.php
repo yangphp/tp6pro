@@ -22,6 +22,8 @@ class Setting extends BaseController
      */
     public function adsList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -62,6 +64,8 @@ class Setting extends BaseController
      */
     public function adsDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
         $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -75,6 +79,8 @@ class Setting extends BaseController
      */
     public function adsAdd()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        //获取广告位
        $pos_list = Db::name('yphp_system_ads_pos')->order('id', 'desc')->select();
        
@@ -85,6 +91,8 @@ class Setting extends BaseController
      */
     public function adsEdit()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        $id = request()->param('id');
 
        $pos_list = Db::name('yphp_system_ads_pos')->order('id', 'desc')->select();
@@ -130,6 +138,8 @@ class Setting extends BaseController
      */
     public function adsPosList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -168,6 +178,8 @@ class Setting extends BaseController
      */
     public function adsPosDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -191,6 +203,8 @@ class Setting extends BaseController
      */
     public function adsPosAdd()
     {
+       if (!$this->access)  exit('无此访问权限！');
+
        return view("system/ads_pos_add");
     }
     /**
@@ -198,6 +212,9 @@ class Setting extends BaseController
      */
     public function adsPosEdit()
     {
+
+        if (!$this->access)  exit('无此访问权限！');
+
        $id = request()->param('id');
        $info = Db::name('yphp_system_ads_pos')->where('id',$id)->find();
 
@@ -236,6 +253,8 @@ class Setting extends BaseController
     public function systemSetting()
     {
 
+     if (!$this->access)  exit('无此访问权限！');
+
        $id = 1;
        $info = Db::name('yphp_system_setting')->where('id',$id)->find();
 
@@ -246,6 +265,8 @@ class Setting extends BaseController
      */
     public function systemSettingAct()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
          $data = request()->param();
          //修改
          Db::name('yphp_system_setting')->strict(false)->update($data);
@@ -257,6 +278,8 @@ class Setting extends BaseController
      */
     public function systemNoticeList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -289,6 +312,8 @@ class Setting extends BaseController
      */
     public function systemNoticeDel()
     {
+       if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
        if (!empty($id)) 
        {
@@ -301,6 +326,7 @@ class Setting extends BaseController
      */
     public function systemNoticeAdd()
     {
+       if (!$this->access)  exit('无此访问权限！');
 
        return view("system/notice_add");
     }
@@ -309,6 +335,8 @@ class Setting extends BaseController
      */
     public function systemNoticeEdit()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $id = request()->param('id');
        $info = Db::name('yphp_system_notice')->where('id',$id)->find();
 
@@ -347,6 +375,8 @@ class Setting extends BaseController
      */
     public function regionList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -437,11 +467,27 @@ class Setting extends BaseController
 
     }
 
+    /**
+     * 获取区域
+     */
+    public function regionAreas()
+    {
+        $city_id = request()->param('city_id');
+
+        $area_list = Db::name('yphp_system_region')->where('region_type',3)->where('parent_id',$city_id)->order('region_name', 'ASC')->select();
+
+        return json(array('status'=>'SUCCESS','data'=>$area_list));
+
+    }
+
      /**
      * 删除地区
      */
     public function regionDel()
     {
+
+      if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -464,6 +510,7 @@ class Setting extends BaseController
      */
     public function regionAdd()
     {
+      if (!$this->access)  exit('无此访问权限！');
       //获取省份列表
       $province_list = Db::name('yphp_system_region')->where('region_type',1)->order('region_name', 'ASC')->select();
       
@@ -474,6 +521,8 @@ class Setting extends BaseController
      */
     public function regionEdit()
     {
+        if (!$this->access)  exit('无此访问权限！');
+        
        $id = request()->param('id');
        $info = Db::name('yphp_system_region')->where('region_id',$id)->find();
        $return_data['info'] = $info;

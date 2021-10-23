@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 use app\admin\BaseController;
 use think\facade\App;
+use think\facade\Db;
 
 
 
@@ -27,6 +28,38 @@ class Index extends BaseController
             'admin_info' => $this->admin_info,
             'admin_id'   => $this->admin_id
         );
+
+       //根据权限获取所有菜单
+       
+       $data_list = Db::name('yphp_admin_power')->where("pstatus",1)->where("ptype",1)->order('porder', 'desc')->select()->toArray();
+        foreach ($data_list as $key => $val) 
+        {
+            //获取二级菜单
+            $data_list[$key]['child'] = Db::name('yphp_admin_power')->where("pstatus",1)->where("parent_id",$val['id'])->where("ptype",2)->order('porder', 'desc')->select()->toArray();
+            
+        }
+        $return_data['power_list'] = $data_list;
+
+        //获取用户权限
+        $return_data['powers_arr'] = array();
+        if($this->admin_info['admin_role_id'] == 0)
+        {
+            $return_data['powers'] = 'all';
+        }
+        else
+        {
+            $role_powers = Db::name('yphp_admin_role')->where("role_id",$this->admin_info['admin_role_id'])->value('role_powers');
+            if($role_powers == 'all')
+            {
+                $return_data['powers'] = 'all';
+            }
+            else
+            {
+                $return_data['powers'] = 'custom';
+                $return_data['powers_arr'] = explode(",",$role_powers);
+            }
+        }
+        
 
        return view("index/index",$return_data);
     }

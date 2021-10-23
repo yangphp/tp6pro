@@ -24,8 +24,9 @@ class Admin extends BaseController
      */
     public function adminList()
     {
-        $data = request()->param();
+        if (!$this->access)  exit('无此访问权限！');
 
+        $data = request()->param();
         $return_data = array(
             'admin_info' => $this->admin_info,
             'admin_id'   => $this->admin_id
@@ -49,7 +50,12 @@ class Admin extends BaseController
         $admin_list = Db::name('yphp_admin')->where($whereCond)->order('admin_id', 'desc')->paginate(array(
             'list_rows' => 10,
             'query'     => $data
-        ));
+        ))->each(function($item,$key){
+
+            $item['admin_role_name'] = Db::name('yphp_admin_role')->where("role_id",$item['admin_role_id'])->value('role_name');
+            if ($item['admin_role_id'] == 0) $item['admin_role_name'] = '超级管理员';
+            return $item;
+        });
         $return_data['admin_list'] = $admin_list;
         // 获取分页显示
         $return_data['page'] = $admin_list->render();
@@ -64,6 +70,8 @@ class Admin extends BaseController
      */
     public function adminDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $s_admin_id  = request()->param('s_admin_id');
        if (empty($s_admin_id)) return json(array('status'=>'FAIL','msg'=>'ID不能为空！'));
        if($s_admin_id == $this->admin_id) return json(array('status'=>'FAIL','msg'=>'你不能删除自己！'));
@@ -79,17 +87,22 @@ class Admin extends BaseController
      */
     public function adminAdd()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！'));
+
        $s_admin_id = request()->param('s_admin_id');
+
+       //获取角色
+        $role_list = Db::name('yphp_admin_role')->order('role_id', 'asc')->select();
 
        if (empty($s_admin_id)) 
        {
-           return view("admin/admin_add");
+           return view("admin/admin_add",array('role_list'=>$role_list));
        }
        else
        {
          $info = Db::name('yphp_admin')->where('admin_id',$s_admin_id)->find();
 
-         return view("admin/admin_edit",array('info'=>$info));
+         return view("admin/admin_edit",array('info'=>$info,'role_list'=>$role_list));
        }
        
     }
@@ -127,6 +140,9 @@ class Admin extends BaseController
      */
     public function roleList()
     {
+
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -159,6 +175,9 @@ class Admin extends BaseController
      */
     public function roleDel()
     {
+    
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $role_id  = request()->param('role_id');
        if (empty($role_id)) return json(array('status'=>'FAIL','msg'=>'ID不能为空！'));
 
@@ -183,6 +202,9 @@ class Admin extends BaseController
      */
     public function roleAdd()
     {
+        
+      if (!$this->access)  exit('无此访问权限！');
+
        $role_id = request()->param('role_id');
 
        //获取当前可用的所有菜单权限
@@ -271,6 +293,8 @@ class Admin extends BaseController
      */
     public function powerList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -314,6 +338,9 @@ class Admin extends BaseController
      */
     public function powerDel()
     {
+
+       if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
        if (empty($id)) return json(array('status'=>'FAIL','msg'=>'ID不能为空！'));
 
@@ -338,6 +365,8 @@ class Admin extends BaseController
      */
     public function powerAdd()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        $parent_id = request()->param('parent_id');
 
         //获取第一级菜单
@@ -354,11 +383,22 @@ class Admin extends BaseController
 
        return view("admin/power_add",$return_data);
     }
+
+    /**
+     * 查看图标
+     */
+    public function showIcon()
+    {
+       return view("index/unicode");
+    }
     /**
      * 编辑菜单
      */
     public function powerEdit()
     {
+
+        if (!$this->access)  exit('无此访问权限！');
+
        $id = request()->param('id');
 
         //获取第一级菜单
@@ -386,6 +426,12 @@ class Admin extends BaseController
         //确定菜单类别
          if ($data['parent_id'] == 0) {
              $data['ptype'] = 1;
+             if (empty($data['picon'])) {
+                 $data['picon'] = "&#xe723;";
+             }
+
+             $data['picon'] = base64_encode($data['picon']);
+
          }else{
             $info = Db::name('yphp_admin_power')->where("id",$data['parent_id'])->find();
             $data['ptype'] = $info['ptype']+1;
@@ -415,10 +461,5 @@ class Admin extends BaseController
        }
     }
     
-
-
-    
-   
-
     
 }

@@ -22,6 +22,8 @@ class Logs extends BaseController
      */
     public function adminLoginList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -77,6 +79,9 @@ class Logs extends BaseController
      */
     public function adminLoginDel()
     {
+
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
        $ids  = request()->param('ids');
 
@@ -111,6 +116,8 @@ class Logs extends BaseController
      */
     public function adminOpList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -154,6 +161,8 @@ class Logs extends BaseController
      */
     public function adminOpDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
        $ids  = request()->param('ids');
 
@@ -187,6 +196,8 @@ class Logs extends BaseController
      */
      public function adminOpShow()
     {
+        if (!$this->access)  exit('无此访问权限！');
+        
        $id  = request()->param('id');
 
        $info = Db::name('yphp_admin_op_log')->where("id",$id)->find();

@@ -47,6 +47,18 @@
                       </div>
                   </div>
 
+                  <div class="layui-form-item">
+                      <label for="admin_truename" class="layui-form-label">
+                          菜单图标
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="text" id="picon" name="picon" autocomplete="off" value="{:base64_decode($info.picon)}" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">
+                        仅一级菜单需输入，<a href="/admin/admin/showIcon" target="_blank">点击查看图标</a>
+                      </div>
+                  </div>
+
                    <div class="layui-form-item">
                       <label for="admin_truename" class="layui-form-label">
                           Controller
@@ -55,7 +67,7 @@
                           <input type="text" id="pcontroller" name="pcontroller" autocomplete="off" value="{$info.pcontroller}" class="layui-input">
                       </div>
                       <div class="layui-form-mid layui-word-aux">
-                        一级菜单无需输入Controller
+                        一级菜单无需输入该项
                       </div>
                   </div>
                   <div class="layui-form-item">
@@ -66,7 +78,7 @@
                           <input type="text" id="paction" name="paction"  autocomplete="off" value="{$info.paction}" class="layui-input">
                       </div>
                       <div class="layui-form-mid layui-word-aux">
-                        一级菜单无需输入Action
+                        一级菜单无需输入该项
                       </div>
                   </div>
 
@@ -75,7 +87,7 @@
                           排序
                       </label>
                       <div class="layui-input-inline">
-                          <input type="text" id="porder" name="porder" value = "0" autocomplete="off" value="{$info.porder}" class="layui-input">
+                          <input type="text" id="porder" name="porder" autocomplete="off" value="{$info.porder}" class="layui-input">
                       </div>
                       <div class="layui-form-mid layui-word-aux">
                           排序值越大越靠前

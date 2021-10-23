@@ -22,6 +22,9 @@ class News extends BaseController
      */
     public function newsList()
     {
+
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -66,6 +69,8 @@ class News extends BaseController
      */
     public function newsTrash()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -110,6 +115,8 @@ class News extends BaseController
      */
     public function newsDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -129,6 +136,9 @@ class News extends BaseController
      */
     public function newsDelReal()
     {
+
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
         $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -146,6 +156,8 @@ class News extends BaseController
      */
     public function newsDelRestore()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
         $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -169,6 +181,8 @@ class News extends BaseController
      */
     public function newsAdd()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        //获取文章分类
        $cate_list = Db::name('yphp_news_cate')->where("is_show",1)->order('cate_orders', 'desc')->select();
        
@@ -179,6 +193,8 @@ class News extends BaseController
      */
     public function newsEdit()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        $id = request()->param('id');
 
        $cate_list = Db::name('yphp_news_cate')->where("is_show",1)->order('cate_orders', 'desc')->select();
@@ -247,6 +263,8 @@ class News extends BaseController
      */
     public function newsCateList()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
         $data = request()->param();
 
         $return_data = array(
@@ -287,6 +305,8 @@ class News extends BaseController
      */
     public function newsCateDel()
     {
+        if (!$this->access)  return json(array('status'=>'FAIL','msg'=>'无此访问权限！')); 
+
        $id  = request()->param('id');
 
        if (!empty($id)) 
@@ -310,6 +330,8 @@ class News extends BaseController
      */
     public function newsCateAdd()
     {
+        if (!$this->access)  exit('无此访问权限！');
+
        return view("news/news_cate_add");
     }
     /**
@@ -317,6 +339,8 @@ class News extends BaseController
      */
     public function newsCateEdit()
     {
+        if (!$this->access)  exit('无此访问权限！');
+        
        $id = request()->param('id');
 
 
