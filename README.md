@@ -1,45 +1,41 @@
-ThinkPHP 6.0
+ThinkPHP 6.0 项目实战
 ===============
 
-> 运行环境要求PHP7.1+，兼容PHP8.0。
+个人使用TP6.0.9写的一个练手项目，仅供参考和学习thinkphp6使用
 
-[官方应用服务市场](https://market.topthink.com) | [`ThinkAPI`——官方统一API服务](https://docs.topthink.com/think-api)
+## 具备功能
 
-ThinkPHPV6.0版本由[亿速云](https://www.yisu.com/)独家赞助发布。
+* 管理员登录，修改密码，查看个人信息
+* 系统设置： 网站设置，广告管理，广告位管理，公告管理，城市管理
+* 日志管理：管理员登录日志 ，管理员操作日志记录
+* 管理员管理：管理员管理，角色管理，权限管理
+* 文章管理： 文章列表，文章分类管理，文章回收站
+* 会员管理： 用户列表，用户等级管理，用户关系管理，用户消息管理，用户登录记录
 
-## 主要新特性
 
-* 采用`PHP7`强类型（严格模式）
-* 支持更多的`PSR`规范
-* 原生多应用支持
-* 更强大和易用的查询
-* 全新的事件系统
-* 模型事件和数据库事件统一纳入事件系统
-* 模板引擎分离出核心
-* 内部功能中间件化
-* SESSION/Cookie机制改进
-* 对Swoole以及协程支持改进
-* 对IDE更加友好
-* 统一和精简大量用法
+## 项目地址
 
-## 安装
+[Git地址](https://github.com/yangphp/tp6pro)
+[开发说明文档地址](https://www.cnblogs.com/ypeih/p/15449695.html)
+[项目线上地址](http://118.31.13.92:8081/admin/login/index.html)
 
+线上登录账号：youke01 密码：a123456 
+
+## 项目安装
+
+1、下载代码到项目目录
 ~~~
-composer create-project topthink/think tp 6.0.*
-~~~
-
-如果需要更新框架使用
-~~~
-composer update topthink/framework
+git clone git@github.com:yangphp/tp6pro.git
 ~~~
 
-## 文档
+2、使用 composer 安装依赖
+~~~
+composer install
+~~~
 
-[完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
+3、项目代码则下载好了
 
-## 参与开发
 
-请参阅 [ThinkPHP 核心框架包](https://github.com/top-think/framework)。
 
 ## 版权信息
 
@@ -51,6 +47,3 @@ ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
 
 All rights reserved。
 
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
-
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
