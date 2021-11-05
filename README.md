@@ -15,11 +15,11 @@ ThinkPHP 6.0 项目实战
 
 ## 项目地址
 
-[Git地址](https://github.com/yangphp/tp6pro)
+[Git地址： https://github.com/yangphp/tp6pro](https://github.com/yangphp/tp6pro)  
 
-[开发说明文档地址](https://www.cnblogs.com/ypeih/p/15449695.html)
+[开发说明文档地址：  https://www.cnblogs.com/ypeih/p/15449695.html](https://www.cnblogs.com/ypeih/p/15449695.html) 
 
-[项目线上地址](http://118.31.13.92:8081/admin/login/index.html)
+[项目线上地址： http://118.31.13.92:8081/admin/login/index.html](http://118.31.13.92:8081/admin/login/index.html)  
 
 线上登录账号：youke01 密码：a123456 
 
